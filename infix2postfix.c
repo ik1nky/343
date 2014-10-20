@@ -17,7 +17,25 @@ char *infixToPostfix(char *infixStr)
 /* function that returns true if the string is an operator */
 bool isOperator(char *str)
 {
-	return false;
+	switch (str)
+	{
+		case '+':
+			return true;
+		case '-':
+			return true;
+		case '*':
+			return true;
+		case '/':
+			return true;
+		case '%':
+			return true;
+		case '^':
+			return true;
+                case '(':
+                        return true;
+		default:
+			return false;
+	}
 }
 
 /* function that returns true if the string is an operand/integer */
