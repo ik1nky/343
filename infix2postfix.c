@@ -16,18 +16,19 @@ stack ops;
 
 char *infixToPostfix(char *infixStr)
 {
-	char *str = malloc(10 * sizeof(char));
-	/*tokenize it*/
 	stackInit(&ops);
 	char * token;
+	/*tokenize it*/
 	token = strtok(infixStr," ");
 
-	char op;
-	int num;
 	while (token != NULL){
+		char *str = malloc(10 * sizeof(char));
+		sprintf(str, "%s", token);
+
 		/*#skip operand, we can use last case as an else*/
 		if (isLeftParen(token)){
 			printf("is left paren\n");
+			stackPush(&ops, str);
 		}else if (isOperand(token)){
 			printf("is an operand\n");
 		}else if (isOperator(token)){
@@ -36,10 +37,9 @@ char *infixToPostfix(char *infixStr)
 			printf("is a right paren\n");
 		}else{
 			//it's a number
-
-			printf("its a number: ");
-			num = atoi(token);
-			printf("%i\n", num);
+			//num = atoi(token);
+			sprintf(str, "%d", atoi(token));
+			printf("%i\n", atoi(token));
 		}
 
 		//sprintf(str, "%c", num);
