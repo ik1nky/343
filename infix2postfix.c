@@ -36,11 +36,14 @@ char *infixToPostfix(char *infixStr)
 			printf("is a right paren\n");
 		}else{
 			//it's a number
-			printf("its a number\n");
+
+			printf("its a number: ");
+			num = atoi(token);
+			printf("%i\n", num);
 		}
 
-		sprintf(str, "%c", num);
-		stackPush(&ops, str);
+		//sprintf(str, "%c", num);
+		//stackPush(&ops, str);
 
 		//printf("%s", token);
 		token = strtok(NULL," ");
