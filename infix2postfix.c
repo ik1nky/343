@@ -16,42 +16,66 @@ stack ops;
 
 char *infixToPostfix(char *infixStr)
 {
+	char *str = malloc(10 * sizeof(char));
+	//char tempStr[2];
+
+  //I'm lazy :)
+	char *postfix = malloc(50 *sizeof(char));
+	//int test = 100;
+	//char *teststr = "nope123";
+	//sprintf(postfix, "lol %d %s", test, teststr);
+
 	stackInit(&ops);
 	char * token;
 	/*tokenize it*/
 	token = strtok(infixStr," ");
-
+	postfix[0] = '\0';
 	while (token != NULL){
 		char *str = malloc(10 * sizeof(char));
 		sprintf(str, "%s", token);
 
 		/*#skip operand, we can use last case as an else*/
-		if (isLeftParen(token)){
-			printf("is left paren\n");
-			stackPush(&ops, str);
-
+		if (isLeftParen(str)){
+			//printf("is left paren\n");
 			//printf("%s", stackPeek(&ops));
-		}else if (isOperand(token)){
-			printf("is an operand\n");
-		}else if (isOperator(token)){
-			printf("is an operator\n");
-		}else if(isRightParen(token)){
-			printf("is a right paren\n");
+			stackPush(&ops, str);
+		}else if (isOperand(str)){
+			//printf("is an operand\n");
+			//strncat(str,tempStr,1);
+		}else if (isOperator(str)){
+			//printf("op! %s\n", str);
+			//pop stack items with higher or equal input presedence than the input
+			while (!stackIsEmpty(&ops) && inputPrecedence(token) <= stackPrecedence(stackPeek(&ops))){
+				sprintf(postfix, "%s %s", postfix, stackPop(&ops));
+			}
+			stackPush(&ops, str);
+			//printf("is an operator\n");
+		}else if(isRightParen(str)){
+			//printf("is a right paren\n");
+			while (!stackIsEmpty(&ops) && *stackPeek(&ops) != '('){
+				sprintf(postfix, "%s %s", postfix, stackPop(&ops));
+			}
+			//removes the last paren
+			stackPop(&ops);
 		}else{
 			//it's a number
-			//num = atoi(token);
-			sprintf(str, "%d", atoi(token));
-			printf("%i\n", atoi(token));
+			//num = atoi(str);
+			sprintf(postfix, "%s %d", postfix, atoi(str));
+			//	printf("%i\n", atoi(str));
 		}
 
+		//printf("postfix: %s\n", postfix);
 		//sprintf(str, "%c", num);
 		//stackPush(&ops, str);
 
 		//printf("%s", token);
 		token = strtok(NULL," ");
 	}
-
-	return NULL;
+	while (!stackIsEmpty(&ops)){
+		sprintf(postfix, "%s %s", postfix, stackPop(&ops));
+	}
+	//printf("\tpostfix: %s\n", postfix);
+	return postfix;
 }
 
 /* function that returns true if the string is an operator */
@@ -103,8 +127,9 @@ int stackPrecedence(char *str)
 			return 2;
 		case '^':
 			return 3;
+		/* value of '(' */
 		default:
-			return 1;
+			return -1;
 	}
 }
 
