@@ -23,26 +23,26 @@ char *infixToPostfix(char *infixStr)
 	token = strtok(infixStr," ");
 
 	char op;
-
+	int num;
 	while (token != NULL){
 		/*#skip operand, we can use last case as an else*/
 		if (isLeftParen(token)){
-
+			printf("is left paren\n");
 		}else if (isOperand(token)){
-
+			printf("is an operand\n");
 		}else if (isOperator(token)){
-
+			printf("is an operator\n");
 		}else if(isRightParen(token)){
-
+			printf("is a right paren\n");
 		}else{
 			//it's a number
-
+			printf("its a number\n");
 		}
 
 		sprintf(str, "%c", num);
 		stackPush(&ops, str);
 
-		printf("%s", token);
+		//printf("%s", token);
 		token = strtok(NULL," ");
 	}
 
