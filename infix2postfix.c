@@ -29,6 +29,8 @@ char *infixToPostfix(char *infixStr)
 		if (isLeftParen(token)){
 			printf("is left paren\n");
 			stackPush(&ops, str);
+
+			//printf("%s", stackPeek(&ops));
 		}else if (isOperand(token)){
 			printf("is an operand\n");
 		}else if (isOperator(token)){
@@ -70,7 +72,7 @@ bool isOperand(char *str)
 /* function that returns true if the string is a left parenthesis */
 bool isLeftParen(char *str)
 {
-	if (*str == ')'){
+	if (*str == '('){
 		return true;
 	}
 	return false;
@@ -79,7 +81,7 @@ bool isLeftParen(char *str)
 /* function that returns true if the string is a right parenthesis */
 bool isRightParen(char *str)
 {
-	if (*str == '('){
+	if (*str == ')'){
 		return true;
 	}
 	return false;

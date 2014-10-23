@@ -2,7 +2,7 @@
  * This is a linked list implementation of stack interface.
  *
  */
- 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -19,14 +19,14 @@ void stackInit(stack *stkPtr)
 void stackDestroy(stack *stkPtr)
 {
 	stkNode *temp, *temp2;
-	
+
 	temp = stkPtr->top;
 	while (temp != NULL) {
 		temp2 = temp->next;
 		free(temp);
 		temp = temp2;
-	}	
-	
+	}
+
 	stkPtr->top = NULL;
 }
 
@@ -40,7 +40,7 @@ void stackPush(stack *stkPtr, stkElement element)
 
 	if (newNode == NULL) {
 		fprintf(stderr, "Insufficient memory to push element on stack.\n");
-		exit(1); 
+		exit(1);
 	}
 
 	/* put information in node */
@@ -58,15 +58,15 @@ stkElement stackPop(stack *stkPtr)
 {
 	if (stackIsEmpty(stkPtr)) {
 		fprintf(stderr, "Can't pop element from stack: stack is empty.\n");
-		exit(1); 
+		exit(1);
 	}
-	
+
 	stkElement element = (stkPtr->top)->element;
-	
+
 	stkNode *temp = stkPtr->top;
 	stkPtr->top = (stkPtr->top)->next;
 	free(temp);
-	
+
 	return element;
 }
 
@@ -80,14 +80,14 @@ bool stackIsEmpty(stack *stkPtr)
 int stackLength(stack *stkPtr)
 {
 	int count = 0;
-	
+
 	stkNode *temp = stkPtr->top;
-	
+
 	while (temp != NULL) {
 		count++;
 		temp = temp->next;
 	}
-	
+
 	return count;
 }
 
@@ -96,10 +96,8 @@ stkElement stackPeek(stack *stkPtr)
 {
 	if (stackIsEmpty(stkPtr)) {
 		fprintf(stderr, "Stack is empty - can't peek.\n");
-		exit(1); 
+		exit(1);
 	}
-	
+
 	return (stkPtr->top)->element;
 }
-
-
