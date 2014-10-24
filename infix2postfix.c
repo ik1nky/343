@@ -16,7 +16,7 @@ stack ops;
 
 char *infixToPostfix(char *infixStr)
 {
-	char *str = malloc(10 * sizeof(char));
+	//char *str = malloc(10 * sizeof(char));
 	//char tempStr[2];
 
   //I'm lazy :)
@@ -158,11 +158,53 @@ int inputPrecedence(char *str)
 /* function that evaluates a postfix expression and returns the result */
 int evaluatePostfix(char *postfixStr)
 {
-	return 69;
+	stack s;
+	stackInit(&s);
+  char *token = malloc(20 * sizeof(char));
+	token = strtok(postfixStr, " ");
+  //could we use pointer arithmatic for this? to save *postfixStr? strtok fills the delimiters with '\0' (thats how it tracks its place)
+	while (token != NULL){
+		if (isOperator(token)){
+			int y = atoi(stackPop(&s));
+			int x = atoi(stackPop(&s));
+			int out = applyOperator(x, y, token);
+			char *str = malloc(10 * sizeof(char));
+			str[0] = '\0';
+			sprintf(str, "%i", out);
+			stackPush(&s, str);
+		}else{
+			stackPush(&s, token);
+		}
+
+
+		token = strtok(NULL, " ");
+	}
+	return atoi(stackPop(&s));
 }
 
 /* apply operator to num1 and num2 and return the result */
 int applyOperator(int num1, int num2, char *opr)
 {
+	int i = 0;
+	switch (*opr){
+		case '+':
+			i=num1+num2;
+			return i;
+		case '-':
+			i=num1-num2;
+			return i;
+		case '*':
+			i=num1*num2;
+			return i;
+		case '/':
+			i=num1/num2;
+			return i;
+		case '%':
+			i=num1 % num2;
+			return i;
+		case '^':
+			i = (int) (pow(num1, num2));
+			return i;
+	}
 	return 0;
 }
